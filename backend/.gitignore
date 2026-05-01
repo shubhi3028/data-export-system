@@ -1,0 +1,26 @@
+# Binary
+api-server
+
+# Temp files
+*.tmp
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Dependencies
+vendor/
+
+# Exports
+exports/

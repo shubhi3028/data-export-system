@@ -1,0 +1,10 @@
+github.com/google/uuid v1.5.0 h1:1n67kL0tQrKfN6hnlwCLnO2+gLHvP2DJw99jUcLt38=
+github.com/google/uuid v1.5.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOM6AFIHS2u87A=
+github.com/gorilla/mux v1.8.1 h1:TuBL49tXNMJY+K9qYTL/y/frontXM45AB8DCznvKPok=
+github.com/gorilla/mux v1.8.1/go.mod h1:DVbg23sWSpwqqkP6nc3/iF+Hv7Y7w6qTWU+4wN7BVQ=
+github.com/joho/godotenv v1.5.1 h1:7P4SfwW3OwrILvHc9DtFvM2hUKL3VQcZLJ/90IeWOU=
+github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DXlwIPvTM=
+github.com/lib/pq v1.10.9 h1:YXG7RB+JIjhP29X+OtkiDnYaXQsRKVTpJMM+SKMFWo=
+github.com/lib/pq v1.10.9/go.mod h1:AlVN5x4E4xV23D78WLRKBeT0xQBcN2fEarMukkBEr8=
+github.com/rs/cors v1.10.1 h1:L0uuZVXIXa8UNWvZWQjWEVplrXfGfM7WPAscADeYEY=
+github.com/rs/cors v1.10.1/go.mod h1:XyqrcTp5zjWXVmxwL4dWrt3Z0MZjHjwmypI+j8jLS4=
