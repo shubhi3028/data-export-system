@@ -23,4 +23,4 @@ RUN mkdir -p ./exports
 
 EXPOSE 8080
 
-CMD ["./api-server"]
+CMD ["/app/api-server"]
