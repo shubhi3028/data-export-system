@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://data-export-system-production.up.railway.app';
 
 export async function fetchUsers(page = 1, filters = {}) {
   const params = new URLSearchParams({
