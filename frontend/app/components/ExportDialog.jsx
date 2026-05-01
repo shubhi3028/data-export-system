@@ -10,10 +10,19 @@ export default function ExportDialog({ onClose, filters }) {
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
   const [exportData, setExportData] = useState(null);
+  const [timeElapsed, setTimeElapsed] = useState(0);
+
+  useEffect(() => {
+    if (status === 'loading') {
+      const timer = setInterval(() => setTimeElapsed(t => t + 1), 1000);
+      return () => clearInterval(timer);
+    }
+  }, [status]);
 
   const startExport = async () => {
     setStatus('loading');
     setError(null);
+    setTimeElapsed(0);
 
     try {
       const response = await initiateExport(filters);
@@ -61,26 +70,35 @@ export default function ExportDialog({ onClose, filters }) {
     }
   };
 
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}m ${secs}s`;
+  };
+
   return (
     <div className={styles.overlay}>
       <div className={styles.dialog}>
         <div className={styles.header}>
-          <h3>Export Data to CSV</h3>
+          <h3>📤 Export Data to CSV</h3>
           <button className={styles.closeBtn} onClick={onClose}>✕</button>
         </div>
 
         <div className={styles.content}>
           {status === 'idle' && (
             <>
-              <p>Export all records matching your filters to CSV format.</p>
-              <p className={styles.warning}>
-                ⚠️ This may take a few moments for large datasets.
-              </p>
+              <div className={styles.description}>
+                <p>Export all records matching your filters to a CSV file.</p>
+                <div className={styles.infoBox}>
+                  <span className={styles.infoIcon}>ℹ️</span>
+                  <p>This may take a few moments for large datasets. Please keep this dialog open.</p>
+                </div>
+              </div>
               <button
                 className={styles.startBtn}
                 onClick={startExport}
               >
-                Start Export
+                ▶ Start Export
               </button>
             </>
           )}
@@ -88,37 +106,60 @@ export default function ExportDialog({ onClose, filters }) {
           {status === 'loading' && (
             <>
               <div className={styles.progressContainer}>
-                <p>Exporting records...</p>
+                <div className={styles.progressHeader}>
+                  <span className={styles.label}>Exporting records...</span>
+                  <span className={styles.time}>{formatTime(timeElapsed)}</span>
+                </div>
+                
                 <div className={styles.progressBar}>
                   <div
                     className={styles.progressFill}
                     style={{ width: `${progress}%` }}
-                  ></div>
+                  >
+                    <span className={styles.progressPercent}>{progress}%</span>
+                  </div>
                 </div>
-                <p className={styles.progressText}>
-                  {progress}% Complete
-                  {exportData && (
-                    <>
-                      <br />
-                      ({exportData.processed_records.toLocaleString()} / {exportData.total_records.toLocaleString()} records)
-                    </>
-                  )}
-                </p>
+
+                {exportData && (
+                  <div className={styles.statsGrid}>
+                    <div className={styles.stat}>
+                      <span className={styles.statLabel}>Processed</span>
+                      <span className={styles.statValue}>{exportData.processed_records.toLocaleString()}</span>
+                    </div>
+                    <div className={styles.stat}>
+                      <span className={styles.statLabel}>Total</span>
+                      <span className={styles.statValue}>{exportData.total_records.toLocaleString()}</span>
+                    </div>
+                    <div className={styles.stat}>
+                      <span className={styles.statLabel}>Speed</span>
+                      <span className={styles.statValue}>{Math.round(exportData.processed_records / (timeElapsed + 1))}/s</span>
+                    </div>
+                  </div>
+                )}
               </div>
-              <p className={styles.info}>
-                Do not close this dialog while export is in progress.
-              </p>
+              <div className={styles.warning}>
+                <span>⏳</span>
+                <p>Please keep this dialog open while export is in progress.</p>
+              </div>
             </>
           )}
 
           {status === 'completed' && (
             <>
               <div className={styles.success}>
-                ✅ Export completed successfully!
+                <span className={styles.successIcon}>✅</span>
+                <h4>Export Completed!</h4>
               </div>
-              <p>
-                {exportData?.total_records.toLocaleString()} records exported
-              </p>
+              <div className={styles.completedStats}>
+                <div className={styles.statItem}>
+                  <span className={styles.label}>Records Exported</span>
+                  <span className={styles.value}>{exportData?.total_records.toLocaleString()}</span>
+                </div>
+                <div className={styles.statItem}>
+                  <span className={styles.label}>Time Taken</span>
+                  <span className={styles.value}>{formatTime(timeElapsed)}</span>
+                </div>
+              </div>
               <button
                 className={styles.downloadBtn}
                 onClick={handleDownload}
@@ -130,10 +171,11 @@ export default function ExportDialog({ onClose, filters }) {
 
           {status === 'error' && (
             <>
-              <div className={styles.error}>
-                ❌ Export failed
+              <div className={styles.errorBox}>
+                <span className={styles.errorIcon}>❌</span>
+                <h4>Export Failed</h4>
               </div>
-              <p>{error}</p>
+              <p className={styles.errorMessage}>{error}</p>
               <button
                 className={styles.retryBtn}
                 onClick={() => {
@@ -141,9 +183,10 @@ export default function ExportDialog({ onClose, filters }) {
                   setSessionId(null);
                   setProgress(0);
                   setError(null);
+                  setTimeElapsed(0);
                 }}
               >
-                Retry
+                ↻ Try Again
               </button>
             </>
           )}

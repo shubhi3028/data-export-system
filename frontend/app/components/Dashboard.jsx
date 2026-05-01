@@ -34,17 +34,25 @@ export default function Dashboard() {
 
   return (
     <div className={styles.dashboard}>
-      <h1>Data Export System</h1>
-      
-      <FilterPanel onFilterChange={setFilters} />
+      <div className={styles.header}>
+        <div className={styles.headerContent}>
+          <h1>
+            <span className={styles.icon}>📊</span> Data Export System
+          </h1>
+          <p className={styles.subtitle}>Efficiently export large datasets with resume capability</p>
+        </div>
+      </div>
 
-      <DataTable
-        users={users}
-        pagination={pagination}
-        loading={loading}
-        onPageChange={loadUsers}
-        filters={filters}
-      />
+      <div className={styles.container}>
+        <FilterPanel onFilterChange={setFilters} />
+        <DataTable
+          users={users}
+          pagination={pagination}
+          loading={loading}
+          onPageChange={loadUsers}
+          filters={filters}
+        />
+      </div>
     </div>
   );
 }
