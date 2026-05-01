@@ -1,0 +1,29 @@
+# Root .gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+.pnp
+
+# Python
+__pycache__/
+*.pyc
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build
+dist/
+build/
