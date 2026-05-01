@@ -1,6 +1,0 @@
-[build]
-nixpkgs = "nixpkgs#go_1_21"
-cmds = ["cd backend && go mod download && go build -o api ."]
-
-[start]
-cmd = "cd backend && ./api"

@@ -1,0 +1,26 @@
+# Build stage
+FROM golang:1.21-alpine AS builder
+
+WORKDIR /app
+
+COPY backend/go.mod backend/go.sum ./
+RUN go mod download
+
+COPY backend/ .
+
+RUN CGO_ENABLED=0 GOOS=linux go build -o api-server .
+
+# Runtime stage
+FROM alpine:latest
+
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /app
+
+COPY --from=builder /app/api-server .
+
+RUN mkdir -p ./exports
+
+EXPOSE 8080
+
+CMD ["./api-server"]
