@@ -1,10 +1,9 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "dockerfile",
-    "buildCommand": "cd backend && go build -o api ."
+    "builder": "nixpacks"
   },
   "deploy": {
-    "startCommand": "cd backend && ./api"
+    "startCommand": "cd backend && go run ."
   }
 }
