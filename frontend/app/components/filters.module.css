@@ -1,88 +1,201 @@
 .filterPanel {
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+  transition: var(--transition);
 }
 
-.filterPanel h3 {
-  margin-top: 0;
-  margin-bottom: 15px;
-  color: #333;
+.filterPanel:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.filterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--bg-tertiary);
+}
+
+.filterHeader h3 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #3b82f6, #7c3aed);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.filtersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
 }
 
 .filterGroup {
-  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .filterGroup label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
-  color: #555;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.inputWrapper {
+  position: relative;
 }
 
 .filterGroup input,
 .filterGroup select {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
   font-size: 14px;
   box-sizing: border-box;
+  transition: var(--transition);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.filterGroup input::placeholder,
+.filterGroup select::placeholder {
+  color: var(--text-secondary);
 }
 
 .filterGroup input:focus,
 .filterGroup select:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  background: var(--bg-primary);
+}
+
+.filterGroup input:hover:not(:focus),
+.filterGroup select:hover:not(:focus) {
+  border-color: var(--primary-light);
 }
 
 .ageRange {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  grid-template-columns: 1fr 40px 1fr;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.ageRange input {
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.separator {
+  color: var(--border);
+  font-weight: 300;
+  text-align: center;
+  line-height: 1;
+  margin-bottom: 2px;
 }
 
 .buttonGroup {
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 12px;
+  margin-top: 0;
 }
 
 .applyBtn,
 .resetBtn {
   flex: 1;
-  padding: 10px 15px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 4px;
-  font-weight: 500;
+  border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
 }
 
 .applyBtn {
-  background: #007bff;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
 }
 
 .applyBtn:hover {
-  background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+.applyBtn:active {
+  transform: translateY(0);
 }
 
 .resetBtn {
-  background: #6c757d;
-  color: white;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1.5px solid var(--border);
 }
 
 .resetBtn:hover {
-  background: #545b62;
+  background: var(--bg-secondary);
+  border-color: var(--text-secondary);
+}
+
+.resetBtn:active {
+  transform: translateY(0);
 }
 
 @media (max-width: 768px) {
-  .ageRange {
+  .filterPanel {
+    padding: 20px;
+  }
+
+  .filtersGrid {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .ageRange {
+    grid-template-columns: 1fr 30px 1fr;
+  }
+
+  .buttonGroup {
+    gap: 10px;
   }
 }

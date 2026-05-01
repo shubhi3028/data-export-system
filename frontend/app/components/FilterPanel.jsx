@@ -12,6 +12,8 @@ export default function FilterPanel({ onFilterChange }) {
     search: '',
   });
 
+  const [activeFiltersCount, setActiveFiltersCount] = useState(0);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({
@@ -22,11 +24,14 @@ export default function FilterPanel({ onFilterChange }) {
 
   const handleApply = () => {
     const activeFilters = {};
+    let count = 0;
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== '') {
         activeFilters[key] = value;
+        count++;
       }
     });
+    setActiveFiltersCount(count);
     onFilterChange(activeFilters);
   };
 
@@ -38,81 +43,89 @@ export default function FilterPanel({ onFilterChange }) {
       age_max: '',
       search: '',
     });
+    setActiveFiltersCount(0);
     onFilterChange({});
   };
 
   return (
     <div className={styles.filterPanel}>
-      <h3>Filters</h3>
+      <div className={styles.filterHeader}>
+        <h3>🔍 Advanced Filters</h3>
+        {activeFiltersCount > 0 && (
+          <span className={styles.badge}>{activeFiltersCount} active</span>
+        )}
+      </div>
       
-      <div className={styles.filterGroup}>
-        <label>Search (Name/Email)</label>
-        <input
-          type="text"
-          name="search"
-          placeholder="Search..."
-          value={filters.search}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div className={styles.filterGroup}>
-        <label>Country</label>
-        <select name="country" value={filters.country} onChange={handleChange}>
-          <option value="">All Countries</option>
-          <option value="USA">USA</option>
-          <option value="UK">UK</option>
-          <option value="Canada">Canada</option>
-          <option value="India">India</option>
-          <option value="Australia">Australia</option>
-          <option value="Germany">Germany</option>
-          <option value="France">France</option>
-          <option value="Japan">Japan</option>
-          <option value="Brazil">Brazil</option>
-          <option value="Mexico">Mexico</option>
-        </select>
-      </div>
-
-      <div className={styles.filterGroup}>
-        <label>Status</label>
-        <select name="status" value={filters.status} onChange={handleChange}>
-          <option value="">All Status</option>
-          <option value="Active">Active</option>
-          <option value="Inactive">Inactive</option>
-          <option value="Pending">Pending</option>
-          <option value="Suspended">Suspended</option>
-        </select>
-      </div>
-
-      <div className={styles.ageRange}>
+      <div className={styles.filtersGrid}>
         <div className={styles.filterGroup}>
-          <label>Age From</label>
-          <input
-            type="number"
-            name="age_min"
-            placeholder="Min age"
-            value={filters.age_min}
-            onChange={handleChange}
-          />
+          <label>Search (Name/Email)</label>
+          <div className={styles.inputWrapper}>
+            <input
+              type="text"
+              name="search"
+              placeholder="Enter name or email..."
+              value={filters.search}
+              onChange={handleChange}
+            />
+          </div>
         </div>
+
         <div className={styles.filterGroup}>
-          <label>Age To</label>
-          <input
-            type="number"
-            name="age_max"
-            placeholder="Max age"
-            value={filters.age_max}
-            onChange={handleChange}
-          />
+          <label>Country</label>
+          <select name="country" value={filters.country} onChange={handleChange}>
+            <option value="">All Countries</option>
+            <option value="USA">🇺🇸 USA</option>
+            <option value="UK">🇬🇧 UK</option>
+            <option value="Canada">🇨🇦 Canada</option>
+            <option value="India">🇮🇳 India</option>
+            <option value="Australia">🇦🇺 Australia</option>
+            <option value="Germany">🇩🇪 Germany</option>
+            <option value="France">🇫🇷 France</option>
+            <option value="Japan">🇯🇵 Japan</option>
+            <option value="Brazil">🇧🇷 Brazil</option>
+            <option value="Mexico">🇲🇽 Mexico</option>
+          </select>
+        </div>
+
+        <div className={styles.filterGroup}>
+          <label>Status</label>
+          <select name="status" value={filters.status} onChange={handleChange}>
+            <option value="">All Status</option>
+            <option value="Active">✓ Active</option>
+            <option value="Inactive">✗ Inactive</option>
+            <option value="Pending">⏳ Pending</option>
+            <option value="Suspended">⛔ Suspended</option>
+          </select>
+        </div>
+
+        <div className={styles.filterGroup}>
+          <label>Age Range</label>
+          <div className={styles.ageRange}>
+            <input
+              type="number"
+              name="age_min"
+              placeholder="Min"
+              value={filters.age_min}
+              onChange={handleChange}
+            />
+            <span className={styles.separator}>—</span>
+            <input
+              type="number"
+              name="age_max"
+              placeholder="Max"
+              value={filters.age_max}
+              onChange={handleChange}
+            />
+          </div>
         </div>
       </div>
 
       <div className={styles.buttonGroup}>
         <button className={styles.applyBtn} onClick={handleApply}>
-          Apply Filters
+          ✓ Apply Filters
         </button>
         <button className={styles.resetBtn} onClick={handleReset}>
-          Reset
+          ↻ Reset All
         </button>
       </div>
     </div>
